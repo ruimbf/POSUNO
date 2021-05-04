@@ -1,4 +1,5 @@
 ﻿using POSUNO.Helpers;
+using POSUNO.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,9 +36,31 @@ namespace POSUNO.Pages
                 return;
             }
 
-            MessageDialog messageDialog = new MessageDialog("tudo ok.");
-            await messageDialog.ShowAsync();
+            MessageDialog messageDialog;
+            Response response = await ApiService.LoginAsync(
+                new LoginRequest
+                {
+                    Email = EmailTextBox.Text,
+                    Password = PasswordPasswordBox.Password
+                }
+            );
+            if (!response.IsSuccess)
+            {
+                messageDialog = new MessageDialog(response.Message, "Error");
+                await messageDialog.ShowAsync();
+                return;
+            }
 
+            User user = (User)response.Result;
+            if (user == null)
+            {
+                messageDialog = new MessageDialog("Credenciais inválidas", "Error");
+                await messageDialog.ShowAsync();
+                return;
+            }
+
+            messageDialog = new MessageDialog($"Seja benvindo {user.FullName}.", "OK");
+            await messageDialog.ShowAsync();
         }
 
         private async Task<bool> ValidForm()
@@ -58,9 +81,9 @@ namespace POSUNO.Pages
                 return false;
             }
 
-            if (string.IsNullOrEmpty(PasswordPasswordBox.Password))
+            if (PasswordPasswordBox.Password.Length < 6)
             {
-                messageDialog = new MessageDialog("A Password é um campo aobrigatório!");
+                messageDialog = new MessageDialog("A Password é um campo obrigatório (min 6 chars)!");
                 await messageDialog.ShowAsync();
                 return false;
             }
