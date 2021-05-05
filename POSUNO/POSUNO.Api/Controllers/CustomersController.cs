@@ -12,11 +12,11 @@ namespace POSUNO.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CostumersController : ControllerBase
+    public class CustomersController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public CostumersController(DataContext context)
+        public CustomersController(DataContext context)
         {
             _context = context;
         }
