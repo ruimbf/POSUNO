@@ -57,7 +57,7 @@ namespace POSUNO.Api.Data
 
                 for (int i = 0; i < 50; i++)
                 {
-                    _context.Costumers.Add(new Entities.Costumer
+                    _context.Costumers.Add(new Entities.Customer
                     {
                         FirstName = $"Cliente {i}",
                         LastName = $"Apelido {i}",

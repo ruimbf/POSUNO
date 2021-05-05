@@ -19,7 +19,7 @@ namespace POSUNO.Api.Data
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<Costumer> Costumers  { get; set; }
+        public DbSet<Customer> Costumers  { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,7 +27,7 @@ namespace POSUNO.Api.Data
 
             modelBuilder.Entity<Product>().HasIndex(e => e.Name).IsUnique();
             modelBuilder.Entity<User>().HasIndex(e => e.Email).IsUnique();
-            modelBuilder.Entity<Costumer>().HasIndex(e => e.Email).IsUnique();
+            modelBuilder.Entity<Customer>().HasIndex(e => e.Email).IsUnique();
         }
     }
 }

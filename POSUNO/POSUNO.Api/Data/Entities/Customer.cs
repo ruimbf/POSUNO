@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace POSUNO.Api.Data.Entities
 {
-    public class Costumer
+    public class Customer
     {
 
         public int Id { get; set; }

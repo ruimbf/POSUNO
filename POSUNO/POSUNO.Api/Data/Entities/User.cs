@@ -29,7 +29,7 @@ namespace POSUNO.Api.Data.Entities
 
 
         public ICollection<Product> Products { get; set; }
-        public ICollection<Costumer> Costumers { get; set; }
+        public ICollection<Customer> Costumers { get; set; }
 
     }
 }

@@ -23,14 +23,14 @@ namespace POSUNO.Api.Controllers
 
         // GET: api/Costumers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Costumer>>> GetCostumers()
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCostumers()
         {
             return await _context.Costumers.ToListAsync();
         }
 
         // GET: api/Costumers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Costumer>> GetCostumer(int id)
+        public async Task<ActionResult<Customer>> GetCostumer(int id)
         {
             var costumer = await _context.Costumers.FindAsync(id);
 
@@ -45,7 +45,7 @@ namespace POSUNO.Api.Controllers
         // PUT: api/Costumers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCostumer(int id, Costumer costumer)
+        public async Task<IActionResult> PutCostumer(int id, Customer costumer)
         {
             if (id != costumer.Id)
             {
@@ -76,7 +76,7 @@ namespace POSUNO.Api.Controllers
         // POST: api/Costumers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Costumer>> PostCostumer(Costumer costumer)
+        public async Task<ActionResult<Customer>> PostCostumer(Customer costumer)
         {
             _context.Costumers.Add(costumer);
             await _context.SaveChangesAsync();

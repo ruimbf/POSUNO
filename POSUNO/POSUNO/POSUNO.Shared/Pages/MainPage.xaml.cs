@@ -32,6 +32,9 @@ namespace POSUNO.Pages
             base.OnNavigatedTo(e);
             User = (User)e.Parameter;
             WelcomeTextBlock.Text = $"Bem vindo: {User.FullName}";
+
+            // defaulr apge
+            MyFrame.Navigate(typeof(ProductsPage));
         }
 
 
@@ -56,5 +59,17 @@ namespace POSUNO.Pages
 
             return await confirmDialog.ShowAsync();
         }
+
+        private void CustomersNavigationViewItem_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            MyFrame.Navigate(typeof(CustomersPage));
+        }
+
+        private void ProductsNavigationViewItem_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            MyFrame.Navigate(typeof(ProductsPage));
+        }
+
+
     }
 }
