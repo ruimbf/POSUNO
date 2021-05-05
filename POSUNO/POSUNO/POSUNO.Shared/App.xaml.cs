@@ -9,6 +9,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -93,14 +94,23 @@ namespace POSUNO
             {
                 if (rootFrame.Content == null)
                 {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
+                    // guardar configurações no storage do dispositivo
+                    SaveParameters();
+
+                    //  ir para a página inicial
                     rootFrame.Navigate(typeof(LoginPage), e.Arguments);
                 }
                 // Ensure the current window is active
                 _window.Activate();
             }
+        }
+
+
+        // guardar configurações no storage do dispositivo
+        private void SaveParameters()
+        {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            localSettings.Values["ApiUrl"] = "https://localhost:44342/";
         }
 
         /// <summary>
