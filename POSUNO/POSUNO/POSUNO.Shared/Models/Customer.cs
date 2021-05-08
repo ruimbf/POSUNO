@@ -20,5 +20,13 @@ namespace POSUNO.Models
 
         public User User{ get; set; }
 
-   }
+
+        public bool IsEdit { get; set; }
+
+        public bool WasSaved { get; set; }
+
+        public string FullName{ get => $"{FirstName} {LastName}"; }
+
+
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using POSUNO.Components;
+using POSUNO.Dialogs;
 using POSUNO.Helpers;
 using POSUNO.Models;
 using System;
@@ -51,7 +52,7 @@ namespace POSUNO.Pages
                 return;
             }
 
-            List<Customer> customers = (List<Customer>) response.Result;
+            List<Customer> customers = (List<Customer>)response.Result;
             Customers = new ObservableCollection<Customer>(customers);
             RefreshList();
 
@@ -64,5 +65,21 @@ namespace POSUNO.Pages
             CustomersListView.Items.Clear();
             CustomersListView.ItemsSource = Customers;
         }
+
+
+        private async void AddCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            CustomerDialog dialog = new CustomerDialog(new Customer());
+            await dialog.ShowAsync();
+        }
+
+        private async void EditCustomer_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Customer customer = Customers[CustomersListView.SelectedIndex];  // obter cliente selecionado
+            customer.IsEdit = true;
+            CustomerDialog dialog = new CustomerDialog(customer);
+            await dialog.ShowAsync();
+        }
+
     }
 }
