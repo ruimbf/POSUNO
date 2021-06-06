@@ -20,9 +20,20 @@ namespace POSUNO.Pages
 {
     public sealed partial class MainPage : Page
     {
+
+        private static MainPage _instance;
+
         public MainPage()
         {
             this.InitializeComponent();
+            _instance = this;
+        }
+
+
+        public static MainPage Instance { get { return _instance; } }
+        public static MainPage GetInstance()
+        { 
+            return _instance; 
         }
 
         public User User { get; set; }

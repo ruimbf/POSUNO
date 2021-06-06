@@ -5,18 +5,10 @@ using POSUNO.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 
@@ -69,8 +61,32 @@ namespace POSUNO.Pages
 
         private async void AddCustomer_Click(object sender, RoutedEventArgs e)
         {
-            CustomerDialog dialog = new CustomerDialog(new Customer());
+            Customer customer = new Customer();
+            CustomerDialog dialog = new CustomerDialog(customer);
             await dialog.ShowAsync();
+            if (!customer.WasSaved)
+            { 
+                return; 
+            }
+
+            customer.User = MainPage.Instance.User;
+
+            Loader loader = new Loader("Espere por favor...");
+            loader.Show();
+            Response response = await ApiService.PostAsync("Customers", customer);
+            loader.Close();
+
+            if (!response.IsSuccess)
+            {
+                MessageDialog messageDialog = new MessageDialog(response.Message, "Erro");
+                await messageDialog.ShowAsync();
+                return;
+            }
+
+            Customer newCustomer = (Customer)response.Result;
+            Customers.Add(newCustomer);
+            RefreshList();
+
         }
 
         private async void EditCustomer_Tapped(object sender, TappedRoutedEventArgs e)
