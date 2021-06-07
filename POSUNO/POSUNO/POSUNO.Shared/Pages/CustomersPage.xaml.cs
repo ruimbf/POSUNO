@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -66,8 +67,8 @@ namespace POSUNO.Pages
             CustomerDialog dialog = new CustomerDialog(customer);
             await dialog.ShowAsync();
             if (!customer.WasSaved)
-            { 
-                return; 
+            {
+                return;
             }
 
             customer.User = MainPage.Instance.User;
@@ -87,7 +88,7 @@ namespace POSUNO.Pages
             Customer newCustomer = (Customer)response.Result;
             Customers.Add(newCustomer);
             RefreshList();
-                    }
+        }
 
         private async void EditCustomer_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -121,5 +122,45 @@ namespace POSUNO.Pages
             RefreshList();
         }
 
+
+        private async void DeleteCustomer_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            ContentDialogResult result = await ConfirmDeleteAsync();
+            if (result != ContentDialogResult.Primary)
+            {
+                return;            
+            }
+
+            Customer customer = Customers[CustomersListView.SelectedIndex];  // obter cliente selecionado
+            Loader loader = new Loader("Espere por favor...");
+            loader.Show();
+            Response response = await ApiService.DeleteAsync("Customers", customer.Id);
+            loader.Close();
+
+            if (!response.IsSuccess)
+            {
+                MessageDialog messageDialog = new MessageDialog(response.Message, "Erro");
+                await messageDialog.ShowAsync();
+                return;
+            }
+
+            List<Customer> customers = Customers.Where(c => c.Id != customer.Id).ToList();
+            Customers = new ObservableCollection<Customer>(customers);
+            RefreshList();
+
+        }
+
+        private async Task<ContentDialogResult> ConfirmDeleteAsync()
+        {
+            ContentDialog confirmDialog = new ContentDialog
+            {
+                CloseButtonText = "Não",
+                PrimaryButtonText = "Sim",
+                Content = "Deseja eliminar este cliente?",
+                Title = "Confirmação"
+            };
+
+            return await confirmDialog.ShowAsync();
+        }
     }
 }

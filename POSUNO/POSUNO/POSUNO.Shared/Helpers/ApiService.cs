@@ -57,7 +57,6 @@ namespace POSUNO.Helpers
             }
         }
 
-
         public static async Task<Response> GetListAsync<T>(string controller)
         {
             try
@@ -100,8 +99,6 @@ namespace POSUNO.Helpers
                 };
             }
         }
-
-
 
         public static async Task<Response> PostAsync<T>(string controller, T model)
         {
