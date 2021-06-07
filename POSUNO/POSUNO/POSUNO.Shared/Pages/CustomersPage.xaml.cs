@@ -5,6 +5,7 @@ using POSUNO.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -86,8 +87,7 @@ namespace POSUNO.Pages
             Customer newCustomer = (Customer)response.Result;
             Customers.Add(newCustomer);
             RefreshList();
-
-        }
+                    }
 
         private async void EditCustomer_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -95,6 +95,30 @@ namespace POSUNO.Pages
             customer.IsEdit = true;
             CustomerDialog dialog = new CustomerDialog(customer);
             await dialog.ShowAsync();
+
+            if (!customer.WasSaved)
+            {
+                return;
+            }
+
+            customer.User = MainPage.Instance.User;
+
+            Loader loader = new Loader("Espere por favor...");
+            loader.Show();
+            Response response = await ApiService.PutAsync("Customers", customer, customer.Id);
+            loader.Close();
+
+            if (!response.IsSuccess)
+            {
+                MessageDialog messageDialog = new MessageDialog(response.Message, "Erro");
+                await messageDialog.ShowAsync();
+                return;
+            }
+
+            Customer newCustomer = (Customer)response.Result;
+            Customer oldCustomer = Customers.FirstOrDefault(c => c.Id == newCustomer.Id);
+            oldCustomer = newCustomer;
+            RefreshList();
         }
 
     }

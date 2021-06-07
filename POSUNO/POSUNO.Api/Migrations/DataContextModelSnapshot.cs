@@ -16,10 +16,10 @@ namespace POSUNO.Api.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.5")
+                .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("POSUNO.Api.Data.Entities.Costumer", b =>
+            modelBuilder.Entity("POSUNO.Api.Data.Entities.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -61,7 +61,7 @@ namespace POSUNO.Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Costumers");
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("POSUNO.Api.Data.Entities.Product", b =>
@@ -137,7 +137,7 @@ namespace POSUNO.Api.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("POSUNO.Api.Data.Entities.Costumer", b =>
+            modelBuilder.Entity("POSUNO.Api.Data.Entities.Customer", b =>
                 {
                     b.HasOne("POSUNO.Api.Data.Entities.User", "User")
                         .WithMany("Costumers")
